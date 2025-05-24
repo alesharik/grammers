@@ -388,10 +388,7 @@ impl<T: Transport, M: Mtp> Sender<T, M> {
     /// This won't cause `ReadError::Io`, but yet another enum would be overkill.
     fn on_net_read(&mut self, n: usize) -> Result<Vec<tl::enums::Updates>, ReadError> {
         if n == 0 {
-            return Err(ReadError::Io(io::Error::new(
-                io::ErrorKind::ConnectionReset,
-                "read 0 bytes",
-            )));
+            return Ok(vec![]);
         }
 
         self.read_tail += n;
